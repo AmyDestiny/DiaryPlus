@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.gentlehu.diary.mapper.DiaryMapper">
+
+    <sql id="all_column_except_id">date,intro,version,more,imgpath,isHighLight</sql>
+    <sql id="all_column">id,date,intro,version,more,imgpath,isHighLight</sql>
+
+    <insert id="insertDiary" parameterType="com.gentlehu.diary.pojo.Diary">
+        <selectKey keyColumn="id" keyProperty="id" resultType="int">
+            select last_insert_id()
+        </selectKey>
+        insert into diary(<include refid="all_column_except_id"></include>)
+        values(#{date},#{intro},#{version},#{more},#{imgpath},#{isHighLight})
+    </insert>
+
+    <select id="findDiaryById" parameterType="int" resultType="com.gentlehu.diary.pojo.Diary">
+        select <include refid="all_column"></include> from diary where id = #{id}
+    </select>
+
+    <delete id="deleteDiary" parameterType="int">
+        delete from diary where id = #{id}
+    </delete>
+
+    <select id="findDiaryByKeyword" parameterType="string" resultType="com.gentlehu.diary.pojo.Diary">
+        select <include refid="all_column"></include>
+        from diary
+        <where>
+            <if test="_parameter != null">
+                intro like concat('%',#{_parameter,jdbcType=VARCHAR},'%') or more like concat('%',#{_parameter,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by date desc
+    </select>
+
+    <select id="findAllDiary" resultType="com.gentlehu.diary.pojo.Diary">
+        select <include refid="all_column"></include> from diary order by date desc
+    </select>
+</mapper>

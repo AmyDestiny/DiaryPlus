@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<!--[if IE 7]><html class="ie7" lang="zh"><![endif]-->
+<!--[if gt IE 7]><!-->
+<html lang="zh">
+<!--<![endif]-->
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
+	<meta http-equiv="cache-control" content="no-cache" />
+	
+	<title>人不如旧，衣不如新</title>
+ 	<link href="css/style.css" rel="stylesheet" type="text/css" /> 
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	
+	
+	<style>
+		body{
+
+		}
+		#imgBox{
+			width:100%;
+			height:100%;
+			background:rgba(0,0,0,0.6);
+			display:none;
+			position:fixed;
+			z-index:101;
+			text-align:center;
+		}
+		#imgBox img{
+			border:10px #1bf2bc solid;
+			z-index:102;
+			margin:50px auto 0 auto;
+			position: relative;
+			border-radius:10px;
+		}
+		.showBig{
+			width:100%;
+			height:100%;
+		}
+		.showBig:hover{
+			cursor:pointer;
+		}
+	</style>
+	<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?3d9905efb2502a4614df9adb31d30b63";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body >
+	<div id="imgBox">
+		<img id="showImg" height="80%" src="images/alisa/meinv.jpg"></img>
+	</div>
+	<div class="content">
+		<div class="wrapper">
+			<div class="light"><i></i></div>
+			<hr class="line-left">
+			<hr class="line-right">
+			<div class="main" ng-app="diaryApp"  ng-controller="contextCtrl" ng-cloak>
+				<h1 class="title">生活中的点点滴滴</h1>
+
+
+				<div class="year" ng-repeat="record in records" on-finish-render-filters>
+					<h2><a href="#">{{record.year + 1900}}年<i></i></a></h2>
+					<div class="list">
+						<ul>
+							<li class="cls" ng-repeat="detail in record.list" ng-class="{true:'cls highlight',false:'cls'}[{{detail.isHighLight == 1}}]">
+								<p class="date">{{detail.date}}</p>
+								<p class="intro">{{detail.intro}}</p>
+								<p class="version">{{detail.version == '' ? "&nbsp;" : detail.version}}</p>
+								<div class="more">
+									<p ng-bind-html="detail.more | trustHtml"></p>
+									
+									<img ng-src="{{detail.imgpath}}" class="showBig" ng-hide="{{detail.imgpath == null || detail.imgpath ==''}}"></img> 
+									
+								</div>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	<div class="footer">
+		<div class="footer-content clearfix">
+			<div class="copyright"> Copyright © 2016 HCC  All Rights Reserved |  豫ICP备16015010号-1</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="js/diary-client.js"></script>
+</body>
+</html>
