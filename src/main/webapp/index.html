@@ -56,8 +56,11 @@ var _hmt = _hmt || [];
 </head>
 <body >
 	<div id="imgBox">
-		<img id="showImg" height="80%" src="images/alisa/meinv.jpg"></img>
+		<img id="showImg" height="80%" src="images/alisa/meinv.jpg"/>
 	</div>
+    <div id="tips" onclick="javascript:location.href='/leaveword';">
+        <span>给我留言</span>
+    </div>
 	<div class="content">
 		<div class="wrapper">
 			<div class="light"><i></i></div>
@@ -78,7 +81,7 @@ var _hmt = _hmt || [];
 								<div class="more">
 									<p ng-bind-html="detail.more | trustHtml"></p>
 									
-									<img ng-src="{{detail.imgpath}}" class="showBig" ng-hide="{{detail.imgpath == null || detail.imgpath ==''}}"></img> 
+									<img ng-src="{{detail.imgpath}}" class="showBig" ng-hide="{{detail.imgpath == null || detail.imgpath ==''}}"/>
 									
 								</div>
 							</li>

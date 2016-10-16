@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gentlehu.msgboard.mapper.LeavewordMapper" >
+    <resultMap id="BaseResultMap" type="com.gentlehu.msgboard.pojo.Leaveword" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="publisher" property="publisher" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+        <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, publisher, title, createtime,content
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from leaveword
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from leaveword
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.gentlehu.msgboard.pojo.Leaveword" >
+        insert into leaveword (id, publisher, title,
+        createtime, content)
+        values (#{id,jdbcType=INTEGER}, #{publisher,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.gentlehu.msgboard.pojo.Leaveword" >
+        insert into leaveword
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="publisher != null" >
+                publisher,
+            </if>
+            <if test="title != null" >
+                title,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="publisher != null" >
+                #{publisher,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.gentlehu.msgboard.pojo.Leaveword" >
+        update leaveword
+        <set >
+            <if test="publisher != null" >
+                publisher = #{publisher,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <!-- +++++以下手动添加的代码+++++++ -->
+    <!-- 通过关键字查找 -->
+    <select id="findByKey" parameterType="string" resultType="com.gentlehu.msgboard.pojo.Leaveword">
+        select <include refid="Base_Column_List" />
+        from leaveword where
+        title like concat('%',#{_parameter,jdbcType=VARCHAR},'%')
+        or content like concat('%',#{_parameter,jdbcType=VARCHAR},'%') order by createtime desc
+    </select>
+    <!-- 查找所有 -->
+    <select id="findAll" parameterType="com.gentlehu.msgboard.vo.PageInfo" resultType="com.gentlehu.msgboard.pojo.Leaveword">
+        select <include refid="Base_Column_List" /> from leaveword order by ${orderby} <!-- 此处用#{}会导致order by ... desc语句不生效， -->
+        <if test="isDesc">
+            desc
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="findByPublisher" parameterType="string" resultType="com.gentlehu.msgboard.pojo.Leaveword">
+        select <include refid="Base_Column_List"></include> from leaveword where publisher = #{_parameter,jdbcType=VARCHAR}
+        order by createtime
+    </select>
+
+    <delete id="deleteByKeyword" parameterType="string">
+        delete from leaveword where
+        title like concat('%',#{_parameter,jdbcType=VARCHAR},'%')
+        or content like concat('%',#{_parameter,jdbcType=VARCHAR},'%')
+    </delete>
+
+    <select id="getCount" resultType="int">
+        select count(*) total from leaveword
+    </select>
+
+</mapper>

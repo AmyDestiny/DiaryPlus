@@ -1,9 +1,11 @@
 package com.gentlehu.diary.mapper;
 
+import com.gentlehu.diary.pojo.Diary;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
-import com.gentlehu.diary.pojo.Diary;
-
+@Repository
 public interface DiaryMapper {
     Diary findDiaryById(Integer id);
     void insertDiary(Diary diary);
