@@ -7,12 +7,11 @@ public class Leaveword {
 
     protected String publisher;
 
-    protected String title;
-
     protected Date createtime;
 
     protected String content;
 
+    protected int status;//状态：0：不显示  1：显示
 
 
     public Leaveword() {
@@ -21,11 +20,12 @@ public class Leaveword {
 
 
 
-    public Leaveword(String publisher, String title, String content) {
+    public Leaveword(String publisher, String content) {
         super();
         this.publisher = publisher;
-        this.title = title;
         this.content = content;
+        this.createtime = new Date();
+        this.status = 0;
     }
 
 
@@ -33,7 +33,6 @@ public class Leaveword {
     public Leaveword(String publisher, String title,String content, Date createtime) {
         super();
         this.publisher = publisher;
-        this.title = title;
         this.createtime = createtime;
         this.content = content;
     }
@@ -56,13 +55,6 @@ public class Leaveword {
         this.publisher = publisher == null ? null : publisher.trim();
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
 
     public Date getCreatetime() {
         return createtime;
@@ -80,14 +72,22 @@ public class Leaveword {
         this.content = content == null ? null : content.trim();
     }
 
+    public int getStatus() {
+        return status;
+    }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
-        return "Leaveword [id=" + id + ", publisher=" + publisher + ", title="
-                + title + ", createtime=" + createtime + ", content=" + content
-                + "]";
+        return "Leaveword{" +
+                "id=" + id +
+                ", publisher='" + publisher + '\'' +
+                ", createtime=" + createtime +
+                ", content='" + content + '\'' +
+                ", status=" + status +
+                '}';
     }
-
-
 }

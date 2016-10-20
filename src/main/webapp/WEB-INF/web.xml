@@ -42,7 +42,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>springMvc</servlet-name>
-		<url-pattern>*.do</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!--<error-page>
 		<error-code>404</error-code>
@@ -50,7 +50,7 @@
 	</error-page>-->
 	<welcome-file-list>
 		<welcome-file>
-			index.html
+			/index.html
 		</welcome-file>
 	</welcome-file-list>
 	<session-config>

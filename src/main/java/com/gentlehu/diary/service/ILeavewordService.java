@@ -10,19 +10,21 @@ public interface ILeavewordService {
 
     void insert(Leaveword leaveword);
 
-    void deleteByKeyword(String keyword);
-
-    Leaveword findById(Integer id);
-
-    List<Leaveword> findAll(PageInfo pageInfo);
-
     void update(Integer id,Leaveword leaveword);
 
-    List<Leaveword> findByKey(String keyword);
+    void deleteByKeyword(String keyword);
 
     void deleteByPrimaryKey(Integer id);
 
+    Leaveword findById(Integer id);
+
+    List<Leaveword> findByKey(String keyword);
+
     List<Leaveword> findByPublisher(String publisher);
+
+    List<Leaveword> findByStatus(int status);
+
+    List<Leaveword> findAll(Integer status,PageInfo pageInfo);
 
     int getCount();
 }

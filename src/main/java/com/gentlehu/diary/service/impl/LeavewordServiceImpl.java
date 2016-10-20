@@ -27,7 +27,7 @@ public class LeavewordServiceImpl implements ILeavewordService {
      * 如果pageNum > 页面总数，自动显示尾页。
      */
     @Override
-    public List<Leaveword> findAll(PageInfo pageInfo) {
+    public List<Leaveword> findAll(Integer status,PageInfo pageInfo) {
         int pageNum = pageInfo.getPageNum();
         int count = leavewordMapper.getCount();
         if(pageNum < 1){
@@ -35,7 +35,7 @@ public class LeavewordServiceImpl implements ILeavewordService {
         }else if(pageNum > (((count - 1) / pageInfo.getPageSize()) + 1)){
             pageInfo.setPageNum(((count - 1) / pageInfo.getPageSize()) + 1);
         }
-        return leavewordMapper.findAll(pageInfo);
+        return leavewordMapper.findAll(status,pageInfo);
     }
 
     @Override
@@ -60,8 +60,13 @@ public class LeavewordServiceImpl implements ILeavewordService {
     }
 
     @Override
+    public List<Leaveword> findByStatus(int status) {
+        return leavewordMapper.findByStatus(status);
+    }
+
+    @Override
     public void insert(Leaveword leaveword) {
-        leavewordMapper.insertSelective(leaveword);
+        leavewordMapper.insert(leaveword);
     }
 
     @Override

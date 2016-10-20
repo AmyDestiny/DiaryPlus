@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.gentlehu.msgboard.mapper.LeavewordMapper" >
-    <resultMap id="BaseResultMap" type="com.gentlehu.msgboard.pojo.Leaveword" >
+<mapper namespace="com.gentlehu.diary.mapper.LeavewordMapper" >
+    <resultMap id="BaseResultMap" type="com.gentlehu.diary.pojo.Leaveword" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="publisher" property="publisher" jdbcType="VARCHAR" />
-        <result column="title" property="title" jdbcType="VARCHAR" />
         <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
         <result column="content" property="content" jdbcType="LONGVARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        id, publisher, title, createtime,content
+        id, publisher, createtime,content, status
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -23,13 +23,7 @@
         delete from leaveword
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.gentlehu.msgboard.pojo.Leaveword" >
-        insert into leaveword (id, publisher, title,
-        createtime, content)
-        values (#{id,jdbcType=INTEGER}, #{publisher,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
-        #{createtime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
-    </insert>
-    <insert id="insertSelective" parameterType="com.gentlehu.msgboard.pojo.Leaveword" >
+    <insert id="insert" parameterType="com.gentlehu.diary.pojo.Leaveword" >
         insert into leaveword
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -38,14 +32,14 @@
             <if test="publisher != null" >
                 publisher,
             </if>
-            <if test="title != null" >
-                title,
-            </if>
             <if test="createtime != null" >
                 createtime,
             </if>
             <if test="content != null" >
                 content,
+            </if>
+            <if test="status != null" >
+                status,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -55,31 +49,31 @@
             <if test="publisher != null" >
                 #{publisher,jdbcType=VARCHAR},
             </if>
-            <if test="title != null" >
-                #{title,jdbcType=VARCHAR},
-            </if>
             <if test="createtime != null" >
                 #{createtime,jdbcType=TIMESTAMP},
             </if>
             <if test="content != null" >
                 #{content,jdbcType=LONGVARCHAR},
             </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="com.gentlehu.msgboard.pojo.Leaveword" >
+    <update id="updateByPrimaryKey" parameterType="com.gentlehu.diary.pojo.Leaveword" >
         update leaveword
         <set >
             <if test="publisher != null" >
                 publisher = #{publisher,jdbcType=VARCHAR},
-            </if>
-            <if test="title != null" >
-                title = #{title,jdbcType=VARCHAR},
             </if>
             <if test="createtime != null" >
                 createtime = #{createtime,jdbcType=TIMESTAMP},
             </if>
             <if test="content != null" >
                 content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -88,31 +82,37 @@
 
     <!-- +++++以下手动添加的代码+++++++ -->
     <!-- 通过关键字查找 -->
-    <select id="findByKey" parameterType="string" resultType="com.gentlehu.msgboard.pojo.Leaveword">
+    <select id="findByKey" parameterType="string" resultType="com.gentlehu.diary.pojo.Leaveword">
         select <include refid="Base_Column_List" />
         from leaveword where
-        title like concat('%',#{_parameter,jdbcType=VARCHAR},'%')
-        or content like concat('%',#{_parameter,jdbcType=VARCHAR},'%') order by createtime desc
+        content like concat('%',#{_parameter,jdbcType=VARCHAR},'%') order by createtime desc
     </select>
     <!-- 查找所有 -->
-    <select id="findAll" parameterType="com.gentlehu.msgboard.vo.PageInfo" resultType="com.gentlehu.msgboard.pojo.Leaveword">
-        select <include refid="Base_Column_List" /> from leaveword order by ${orderby} <!-- 此处用#{}会导致order by ... desc语句不生效， -->
-        <if test="isDesc">
+    <select id="findAll" resultType="com.gentlehu.diary.pojo.Leaveword">
+        select <include refid="Base_Column_List" /> from leaveword
+        <if test="status != null">
+            where status = #{status}
+        </if>
+        order by ${pageInfo.orderby} <!-- 此处用#{}会导致order by ... desc语句不生效， -->
+        <if test="pageInfo.isDesc">
             desc
         </if>
-        limit #{start},#{pageSize}
+        limit #{pageInfo.start},#{pageInfo.pageSize}
     </select>
 
-    <select id="findByPublisher" parameterType="string" resultType="com.gentlehu.msgboard.pojo.Leaveword">
+    <select id="findByPublisher" parameterType="string" resultType="com.gentlehu.diary.pojo.Leaveword">
         select <include refid="Base_Column_List"></include> from leaveword where publisher = #{_parameter,jdbcType=VARCHAR}
         order by createtime
     </select>
 
     <delete id="deleteByKeyword" parameterType="string">
         delete from leaveword where
-        title like concat('%',#{_parameter,jdbcType=VARCHAR},'%')
-        or content like concat('%',#{_parameter,jdbcType=VARCHAR},'%')
+        content like concat('%',#{_parameter,jdbcType=VARCHAR},'%')
     </delete>
+
+    <select id="findByStatus" parameterType="int" resultType="com.gentlehu.diary.pojo.Leaveword">
+        select <include refid="Base_Column_List"></include> from leaveword where status = #{status}
+    </select>
 
     <select id="getCount" resultType="int">
         select count(*) total from leaveword
