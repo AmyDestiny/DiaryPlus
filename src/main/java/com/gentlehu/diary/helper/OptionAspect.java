@@ -30,6 +30,9 @@ public class OptionAspect {
             throwable.printStackTrace();
         }
         System.out.println("环绕通知执行了");
+//        Diary diary = new Diary();
+//        diary.setId(123);
+//        result = diary;
         return result;
     }
 }
