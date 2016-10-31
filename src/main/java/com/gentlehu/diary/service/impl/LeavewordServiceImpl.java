@@ -29,7 +29,7 @@ public class LeavewordServiceImpl implements ILeavewordService {
     @Override
     public List<Leaveword> findAll(Integer status,PageInfo pageInfo) {
         int pageNum = pageInfo.getPageNum();
-        int count = leavewordMapper.getCount();
+        int count = leavewordMapper.getCount(null);
         if(pageNum < 1){
             pageInfo.setPageNum(1);
         }else if(pageNum > (((count - 1) / pageInfo.getPageSize()) + 1)){
@@ -39,7 +39,7 @@ public class LeavewordServiceImpl implements ILeavewordService {
     }
 
     @Override
-    public void update(Integer id, Leaveword leaveword) {
+    public void updateByPrimaryKey(Integer id, Leaveword leaveword) {
         leaveword.setId(id);
         leavewordMapper.updateByPrimaryKey(leaveword);
     }
@@ -60,11 +60,6 @@ public class LeavewordServiceImpl implements ILeavewordService {
     }
 
     @Override
-    public List<Leaveword> findByStatus(int status) {
-        return leavewordMapper.findByStatus(status);
-    }
-
-    @Override
     public void insert(Leaveword leaveword) {
         leavewordMapper.insert(leaveword);
     }
@@ -75,8 +70,8 @@ public class LeavewordServiceImpl implements ILeavewordService {
     }
 
     @Override
-    public int getCount() {
-        return leavewordMapper.getCount();
+    public int getCount(Integer status) {
+        return leavewordMapper.getCount(status);
     }
 
 }

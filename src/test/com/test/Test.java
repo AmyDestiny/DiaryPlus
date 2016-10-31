@@ -25,6 +25,11 @@ public class Test {
 		
 		diaryService = (IDiaryService) ac.getBean("diaryService");
 	}
+	@org.junit.Test
+	public void test5(){//测试环绕通知
+		Diary diary = diaryService.findDiaryById(1);
+		System.out.println(diary);
+	}
 
 	@org.junit.Test
 	public void test4(){

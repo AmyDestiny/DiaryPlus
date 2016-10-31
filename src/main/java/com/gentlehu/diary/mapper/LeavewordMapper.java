@@ -25,11 +25,10 @@ public interface LeavewordMapper {
 
     List<Leaveword> findByPublisher(String publisher);
 
-    List<Leaveword> findByStatus(int status);
 
     void deleteByKeyword(String keyword);
 
-    int getCount();
+    int getCount(@Param("status") Integer status);
 
 
 }

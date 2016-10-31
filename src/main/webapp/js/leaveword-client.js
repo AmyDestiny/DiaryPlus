@@ -43,7 +43,7 @@ function get_comments(pn) {
         success:function (response) {
             if(response.code == 200){
                 console.log("获取留言列表成功 & pn = "+pn);
-                console.log("response.data.list:::" + JSON.stringify(response.data.list));
+                console.log("responset:::" + JSON.stringify(response));
                 page_count = 1 +  Math.floor(response.data.count / page_size);
                 comments_diaplay(response.data.list);
             }

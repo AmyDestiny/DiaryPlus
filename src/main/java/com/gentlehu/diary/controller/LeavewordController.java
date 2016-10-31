@@ -31,9 +31,10 @@ public class LeavewordController {
         PageInfo pageInfo = new PageInfo(pn, 5);
         pageInfo.setOrderby("id");
         List<Leaveword> list = leavewordService.findAll(1,pageInfo);
+        int count = leavewordService.getCount(1);
         JsonResult json = JsonResult.create(200, "查询成功");
         json.addData("list",list);
-        json.addData("count",list.size());
+        json.addData("count",count);
         return json;
     }
 
@@ -42,12 +43,16 @@ public class LeavewordController {
      * @param pn pageNumber 页码
      * @param ps pageSize 每页条数
      */
-    @RequestMapping(value = "/findAll",produces = {"application/json;charset=utf-8"})
+    @RequestMapping(value = "/findAll",method = {RequestMethod.POST},produces = {"application/json;charset=utf-8"})
     @ResponseBody
-    public JsonResult findAll(int pn,int ps){
-        List<Leaveword> list = leavewordService.findAll(null,new PageInfo(pn, ps));
+    public JsonResult findAll(Integer status,int pn,int ps){
+        PageInfo pageInfo = new PageInfo(pn, ps);
+        pageInfo.setOrderby("id");
+        List<Leaveword> list = leavewordService.findAll(status,pageInfo);
+        int count = leavewordService.getCount(1);
         JsonResult json = JsonResult.create(200, "查询成功");
         json.addData("list",list);
+        json.addData("count",count);
         return json;
     }
 
@@ -60,19 +65,23 @@ public class LeavewordController {
     }
 
 
-    /**
-     * 固定每页显示5条 （网页端调用）
-     * @param pn 页码
-     */
-  /*
-    @RequestMapping(value = "/list/{pn}",produces = {"application/json;charset=utf-8"})
+    @RequestMapping(value = "/delete",method = RequestMethod.POST,produces = {"application/json;charset=utf-8"})
     @ResponseBody
-    public JsonResult list(@PathVariable int pn){
-        List<Leaveword> list = leavewordService.findAll(1,new PageInfo(pn, 5));
-        JsonResult json = JsonResult.create(200, "查询成功");
-        json.addData("list",list);
-        return json;
-    }*/
+    public JsonResult delete(Integer id){
+        if(null != id){
+            leavewordService.deleteByPrimaryKey(id);
+            return JsonResult.create(200,"删除成功");
+        }
+        return JsonResult.create(300,"缺少必要参数id");
+    }
+    @RequestMapping(value = "/update",method = RequestMethod.POST,produces = {"application/json;charset=utf-8"})
+    @ResponseBody
+    public JsonResult update(Integer id,int status){
+        Leaveword leaveword = new Leaveword();
+        leaveword.setStatus(status);
+        leavewordService.updateByPrimaryKey(id,leaveword);
+        return JsonResult.create(200,"更改成功");
+    }
 
 
 }

@@ -110,12 +110,12 @@
         content like concat('%',#{_parameter,jdbcType=VARCHAR},'%')
     </delete>
 
-    <select id="findByStatus" parameterType="int" resultType="com.gentlehu.diary.pojo.Leaveword">
-        select <include refid="Base_Column_List"></include> from leaveword where status = #{status}
-    </select>
 
     <select id="getCount" resultType="int">
         select count(*) total from leaveword
+        <if test="status != null">
+            where status = #{status}
+        </if>
     </select>
 
 </mapper>

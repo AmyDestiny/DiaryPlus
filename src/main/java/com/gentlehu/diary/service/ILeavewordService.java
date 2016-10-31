@@ -10,7 +10,7 @@ public interface ILeavewordService {
 
     void insert(Leaveword leaveword);
 
-    void update(Integer id,Leaveword leaveword);
+    void updateByPrimaryKey(Integer id,Leaveword leaveword);
 
     void deleteByKeyword(String keyword);
 
@@ -22,9 +22,8 @@ public interface ILeavewordService {
 
     List<Leaveword> findByPublisher(String publisher);
 
-    List<Leaveword> findByStatus(int status);
 
     List<Leaveword> findAll(Integer status,PageInfo pageInfo);
 
-    int getCount();
+    int getCount(Integer status);
 }

@@ -37,9 +37,17 @@
 		</tx:attributes>
 	</tx:advice>
     <!-- aop -->
+	<bean id="optionAspect" class="com.gentlehu.diary.helper.OptionAspect"/>
 	<aop:config>
-<!-- 这样配置会报错：	<aop:advisor advice-ref="txAdvice" pointcut="execution(* com.gentlehu.diary.service.impl.*.*(..))"/> -->
 		<aop:advisor advice-ref="txAdvice" pointcut="execution(* com.gentlehu.diary.service..*.*(..))"/>
+
+		<aop:aspect ref="optionAspect">
+			<aop:pointcut id="process" expression="execution(* com.gentlehu.diary.service.impl.DiaryServiceImpl.findDiaryById(..))"/>
+			<aop:before method="beforeOption" pointcut-ref="process"/>
+			<aop:after method="afterOption" pointcut-ref="process"/>
+			<aop:after-returning method="afterReturnOption" pointcut-ref="process"/>
+			<aop:around method="aroundOption" pointcut-ref="process"/>
+		</aop:aspect>
 	</aop:config>
 
 </beans>
